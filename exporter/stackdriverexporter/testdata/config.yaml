@@ -1,0 +1,34 @@
+receivers:
+  examplereceiver:
+
+processors:
+  exampleprocessor:
+
+exporters:
+  stackdriver:
+  stackdriver/customname:
+    project: my-project
+    metric_prefix: prefix
+    endpoint: test-endpoint
+    number_of_workers: 3
+    skip_create_metric_descriptor: true
+    use_insecure: true
+    resource_mappings:
+      - source_type: source.resource1
+        target_type: target-resource1
+        label_mappings:
+          - source_key: contrib.opencensus.io/exporter/stackdriver/project_id
+            target_key: project_id
+            optional: true
+          - source_key: source.label1
+            target_key: target_label_1
+      - source_type: source.resource2
+        target_type: target-resource2
+
+service:
+  pipelines:
+    traces:
+        receivers: [examplereceiver]
+        processors: [exampleprocessor]
+        exporters: [stackdriver]
+

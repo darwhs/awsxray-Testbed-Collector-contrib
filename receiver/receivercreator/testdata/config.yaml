@@ -1,0 +1,22 @@
+receivers:
+  receiver_creator:
+  receiver_creator/1:
+    watch_observers: [mock_observer]
+    receivers:
+      examplereceiver/1:
+        rule: type.port
+        config:
+          endpoint: localhost:12345
+
+processors:
+  exampleprocessor:
+
+exporters:
+  exampleexporter:
+
+service:
+  pipelines:
+    metrics:
+      receivers: [receiver_creator/1]
+      processors: [exampleprocessor]
+      exporters: [exampleexporter]
